@@ -1,5 +1,6 @@
 import re
 
+# these are the Unicode ranges in which any Chinese characters would exist
 cjk_ranges = [
                 (0x4E00, 0x62FF),
                 (0x6300, 0x77FF),
@@ -20,19 +21,22 @@ cjk_ranges = [
                 (0x2F800, 0x2FA1F)
             ]
 
+# when given the name of a text file excluding the extension, this function reads the text and returns a string
 def readText(name):
     f = open(name + ".txt", "r", encoding='utf-8')
     text = f.read()
     f.close()
     return text
 
+# this function calculates the sentence by only counting Chinese characters that aren't punctuation or spacing
 def lenSentence(sentence):
     strLen = 0
     for c in sentence:
-        if is_cjk(c) and c != "，" and c != "“" and c != " " and c != "……" and c != "\n" and c != "\t":
+        if is_cjk(c) and c != "，" and c != "“" and c != " " and c != "：" and c != "；" and c != "-" and c != "\n" and c != "\t":
             strLen += 1
     return strLen
 
+# a boolean function that checks if a given character is a Chinese character or not by seeing if it is within the ranges defined earlier
 def is_cjk(char):
     char = ord(char)
     for bottom, top in cjk_ranges:
@@ -42,10 +46,16 @@ def is_cjk(char):
 
 
 if __name__ == '__main__':
-    test_str = "我正。在！做？一个，考。试。"
-    res = re.split('。|！|？', readText('祝福'))
+    # we run the split function on the result of reading a text (in this case 祝福)  using a regex with the sentence markers
+    # add characters to this regex to add more sentence markers
+    res = re.split('。|！|？|……', readText('祝福'))
+    finalSentences = []
+    # this loop removes sentences with a length of 0 if any exist
     for r in res:
-        print(lenSentence(r))
-    print(len(res))
+        if lenSentence(r) > 0:
+            finalSentences.append(r)
+    for s in finalSentences:
+        print(lenSentence(s))
+    print(len(finalSentences))
 
 
