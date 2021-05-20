@@ -1,112 +1,32 @@
-from __future__ import division
+"""
+In this example we will load the NINO3 sea surface temperature anomaly dataset
+between 1871 and 1996. This and other sample data files are kindly provided by
+C. Torrence and G. Compo at
+<http://paos.colorado.edu/research/wavelets/software.html>.
 
-import re
-import numpy as np
-import matplotlib.pyplot as plt
+"""
+# We begin by importing the relevant libraries. Please make sure that PyCWT is
+# properly installed in your system.
+from __future__ import division
 import numpy
 from matplotlib import pyplot
-from MFDFA import MFDFA
 
 import pycwt as wavelet
 from pycwt.helpers import find
-# encoding=utf-8
-import jieba
 
-
-
-# these are the Unicode ranges in which any Chinese characters would exist
-cjk_ranges = [
-                (0x4E00, 0x62FF),
-                (0x6300, 0x77FF),
-                (0x7800, 0x8CFF),
-                (0x8D00, 0x9FCC),
-                (0x3400, 0x4DB5),
-                (0x20000, 0x215FF),
-                (0x21600, 0x230FF),
-                (0x23100, 0x245FF),
-                (0x24600, 0x260FF),
-                (0x26100, 0x275FF),
-                (0x27600, 0x290FF),
-                (0x29100, 0x2A6DF),
-                (0x2A700, 0x2B734),
-                (0x2B740, 0x2B81D),
-                (0x2B820, 0x2CEAF),
-                (0x2CEB0, 0x2EBEF),
-                (0x2F800, 0x2FA1F)
-            ]
-
-# when given the name of a text file excluding the extension, this function reads the text and returns a string
-def readText(name):
-    f = open(name + ".txt", "r", encoding='utf-8')
-    text = f.read()
-    f.close()
-    return text
-
-# this function calculates the sentence by only counting Chinese characters that aren't punctuation or spacing
-def lenSentence(sentence):
-    strLen = 0
-    for c in sentence:
-        if is_cjk(c) and c != "，" and c != "“" and c != " " and c != "：" and c != "；" and c != "-" and c != "\n" and c != "\t":
-            strLen += 1
-    return strLen
-
-# a boolean function that checks if a given character is a Chinese character or not by seeing if it is within the ranges defined earlier
-def is_cjk(char):
-    char = ord(char)
-    for bottom, top in cjk_ranges:
-        if char >= bottom and char <= top:
-            return True
-    return False
-
-def copyFunc(y):
-    x = np.linspace(0, 1, len(y))
-    p = np.poly1d(np.polyfit(x, y,3))  # fitting to a 3rd degree polynomial
-    t = np.linspace(0, 1, 200)
-    plt.plot(x, y, 'o-', t, p(t), '-')
-    plt.show()#plot sentence lengths with fitted curve
-
-
-def multifractal(sls):
-    data = numpy.array(sls)
-    # Select a band of lags, which usually ranges from
-    # very small segments of data, to very long ones, as
-    lag = np.unique(np.logspace(0.5, 3, 100).astype(int))
-    # Notice these must be ints, since these will segment
-    # the data into chucks of lag size
-
-    # Select the power q
-    q = 5
-
-    # The order of the polynomial fitting
-    order = 1
-
-    # Obtain the (MF)DFA as
-    lag, dfa = MFDFA(data, lag=lag, q=q, order=order)
-    # To uncover the Hurst index, lets get some log-log plots
-    plt.loglog(lag, dfa, 'o', label='fOU: MFDFA q=5')
-
-    # And now we need to fit the line to find the slope. We will
-    # fit the first points, since the results are more accurate
-    # there. Don't forget that if you are seeing in log-log
-    # scales, you need to fit the logs of the results
-    pol = np.polyfit(np.log(lag[:15]), np.log(dfa[:15]), 1)
-    print(pol)
-    plt.show()
-    # Now what you should obtain is: slope = H + 1
-
-def simple_sample(sls):
+if __name__ == '__main__':
     # Then, we load the dataset and define some data related parameters. In this
     # case, the first 19 lines of the data file contain meta-data, that we ignore,
     # since we set them manually (*i.e.* title, units).
     # url = 'http://paos.colorado.edu/research/wavelets/wave_idl/nino3sst.txt'
     # dat = numpy.genfromtxt(url, skip_header=19)
+    title = 'NINO3 Sea Surface Temperature'
+    label = 'NINO3 SST'
+    units = 'degC'
+    t0 = 1871.0
+    dt = 0.25  # In years
 
-    title = 'Sentence Length'
-    label = 'Zhufu Sentence Length'
-    units = 'Characters'
-    t0 = 1
-    dt = 1  # In years
-    dat = numpy.array(sls)
+
     # We also create a time array in years.
     N = dat.size
     t = numpy.arange(0, N) * dt + t0
@@ -189,7 +109,6 @@ def simple_sample(sls):
     figprops = dict(figsize=(11, 8), dpi=72)
     fig = pyplot.figure(**figprops)
 
-
     # First sub-plot, the original time series anomaly and inverse wavelet
     # transform.
     ax = pyplot.axes([0.1, 0.75, 0.65, 0.2])
@@ -226,7 +145,7 @@ def simple_sample(sls):
     cx = pyplot.axes([0.77, 0.37, 0.2, 0.28], sharey=bx)
     cx.plot(glbl_signif, numpy.log2(period), 'k--')
     cx.plot(var * fft_theor, numpy.log2(period), '--', color='#cccccc')
-    cx.plot(var * fft_power, numpy.log2(1. / fftfreqs), '-', color='#cccccc',
+    cx.plot(var * fft_power, numpy.log2(1./fftfreqs), '-', color='#cccccc',
             linewidth=1.)
     cx.plot(var * glbl_power, numpy.log2(period), 'k-', linewidth=1.5)
     cx.set_title('c) Global Wavelet Spectrum')
@@ -237,66 +156,13 @@ def simple_sample(sls):
     cx.set_yticklabels(Yticks)
     pyplot.setp(cx.get_yticklabels(), visible=False)
 
-
-    # Third sub-plot, the global wavelet and Fourier power spectra and theoretical
-    # noise spectra. Note that period scale is logarithmic.
-    dx = pyplot.axes([0.1, 0.07, 0.65, 0.2])
-    dx.plot(numpy.log2(fftfreqs), numpy.log2(fft_power), 'k')
-    dx.plot(numpy.log2(freqs), var * fft_theor, '--', color='#cccccc')
-    dx.plot(numpy.log2(1. / fftfreqs), var * fft_power, '-', color='#cccccc',
-            linewidth=1.)
-    dx.plot(fftfreqs, fft_power, 'k-', linewidth=1.5)
-    dx.set_title('d) Global Wavelet Spectrum')
-    dx.set_ylabel(r'Power [({})^2]'.format(units))
-    dx.set_xlim([0, 2*fftfreqs.max()])
-
-    Yticks = 2 ** numpy.arange(numpy.ceil(numpy.log2(fft_power.min())),
-                               numpy.ceil(numpy.log2(fft_power.max())))
-    dx.set_ylim(numpy.log2([fft_power.min(), fft_power.max()]))
-    dx.set_yticks(numpy.log2(Yticks))
-    dx.set_yticklabels(Yticks)
-    pyplot.setp(dx.get_yticklabels(), visible=False)
-
+    # Fourth sub-plot, the scale averaged wavelet spectrum.
+    dx = pyplot.axes([0.1, 0.07, 0.65, 0.2], sharex=ax)
+    dx.axhline(scale_avg_signif, color='k', linestyle='--', linewidth=1.)
+    dx.plot(t, scale_avg, 'k-', linewidth=1.5)
+    dx.set_title('d) {}--{} year scale-averaged power'.format(2, 8))
+    dx.set_xlabel('Time (year)')
+    dx.set_ylabel(r'Average variance [{}]'.format(units))
+    ax.set_xlim([t.min(), t.max()])
 
     pyplot.show()
-
-if __name__ == '__main__':
-    # we run the split function on the result of reading a text (in this case 祝福)  using a regex with the sentence markers
-    # add characters to this regex to add more sentence markers
-    res = re.split('。|！|？|……', readText('乌云遇皎月'))
-    finalSentences = []
-    sentenceLengths = []
-    # this loop removes sentences with a length of 0 if any exist
-    for r in res:
-        if lenSentence(r) > 0:
-            finalSentences.append(r)
-    for s in finalSentences:
-        print(lenSentence(s))
-        sentenceLengths.append(lenSentence(s))
-    print(len(finalSentences))
-    multifractal(sentenceLengths)
-
-    # simple_sample(sentenceLengths)
-
-    """
-    copyFunc(sentenceLengths)
-    #jieba.enable_paddle()  # 启动paddle模式。 0.40版之后开始支持，早期版本不支持
-    strs = ["我来到北京清华大学", "乒乓球拍卖完了", "中国科学技术大学"]
-    for str in strs:
-        seg_list = jieba.cut(str, use_paddle=True)  # 使用paddle模式
-        print("Paddle Mode: " + '/'.join(list(seg_list)))
-
-    seg_list = jieba.cut("我来到北京清华大学", cut_all=True)
-    print("Full Mode: " + "/ ".join(seg_list))  # 全模式
-
-    seg_list = jieba.cut("我来到北京清华大学", cut_all=False)
-    print("Default Mode: " + "/ ".join(seg_list))  # 精确模式
-
-    seg_list = jieba.cut("他来到了网易杭研大厦")  # 默认是精确模式
-    print(", ".join(seg_list))
-
-    seg_list = jieba.cut_for_search("小明硕士毕业于中国科学院计算所，后在日本京都大学深造")  # 搜索引擎模式
-    print(", ".join(seg_list))
-    """
-
-
