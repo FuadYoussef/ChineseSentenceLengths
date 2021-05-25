@@ -54,7 +54,8 @@ def mfdfatest(sls):
     # there. Don't forget that if you are seeing in log-log
     # scales, you need to fit the logs of the results
     print(len(sls)//5)
-    slopes = np.polyfit(np.log(lag[20:len(sls)//5]), np.log(dfa[20:len(sls)//5]), 1)[0]
+    # slopes = np.polyfit(np.log(lag[20:len(sls)//5]), np.log(dfa[20:len(sls)//5]), 1)[0]
+    slopes = np.polyfit(np.log(lag), np.log(dfa), 1)[0]
     slopes = slopes.tolist()
     hExponents = []
     for slope in slopes:
