@@ -53,8 +53,13 @@ def mfdfatest(sls):
     # fit the first points, since the results are more accurate
     # there. Don't forget that if you are seeing in log-log
     # scales, you need to fit the logs of the results
-    print(len(sls)//5)
+    # print(len(sls)//5)
     # slopes = np.polyfit(np.log(lag[20:len(sls)//5]), np.log(dfa[20:len(sls)//5]), 1)[0]
+    for x in range(0, len(dfa)):
+        for y in range(0, len(dfa[x])):
+            if dfa[x,y] == 0:
+                print("made it")
+                dfa[x,y] += .000000000001
     slopes = np.polyfit(np.log(lag), np.log(dfa), 1)[0]
     slopes = slopes.tolist()
     hExponents = []
@@ -66,11 +71,12 @@ def mfdfatest(sls):
     plt.show()
 
 if __name__ == '__main__':
-    sentenceLengths = getSentenceLengths('乌云遇皎月')
+    sentenceLengths = getSentenceLengths('射雕英雄传 金庸 1')
     # multifractal(sentenceLengths)
     mfdfatest(sentenceLengths)
+    #difs = []
+    #for i in range(0, len(mine)):
+    #    difs.append(mine[i] - col[i])
+    #print(difs)
     # simple_sample(sentenceLengths)
-
-
-
 
