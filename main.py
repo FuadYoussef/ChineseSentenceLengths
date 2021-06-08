@@ -58,7 +58,6 @@ def mfdfatest(sls):
     for x in range(0, len(dfa)):
         for y in range(0, len(dfa[x])):
             if dfa[x,y] == 0:
-                print("made it")
                 dfa[x,y] += .000000000001
     slopes = np.polyfit(np.log(lag), np.log(dfa), 1)[0]
     slopes = slopes.tolist()
