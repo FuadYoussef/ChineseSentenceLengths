@@ -10,8 +10,8 @@ from MFDFA import MFDFA
 
 def multifractal(sls):
     data = np.array(sls)
-    lag = np.unique(np.logspace(0.5, 3, 100).astype(int))
-
+    #lag = np.unique(np.logspace(0.5, 3, 100).astype(int))
+    lag = np.unique(np.logspace(0.5, data.size/100, 100).astype(int))
     # Select the power q
     q = 5
 
