@@ -7,31 +7,6 @@ import matplotlib.pyplot as plt
 from MFDFA import MFDFA
 # encoding=utf-8
 
-
-def multifractal(sls):
-    data = np.array(sls)
-    #lag = np.unique(np.logspace(0.5, 3, 100).astype(int))
-    lag = np.unique(np.logspace(0.5, data.size/100, 100).astype(int))
-    # Select the power q
-    q = 5
-
-    # The order of the polynomial fitting
-    order = 1
-
-    # Obtain the (MF)DFA as
-    lag, dfa = MFDFA(data, lag=lag, q=q, order=order)
-    # To uncover the Hurst index, lets get some log-log plots
-    plt.loglog(lag, dfa, 'o', label='fOU: MFDFA q=5')
-
-    # And now we need to fit the line to find the slope. We will
-    # fit the first points, since the results are more accurate
-    # there. Don't forget that if you are seeing in log-log
-    # scales, you need to fit the logs of the results
-    pol = np.polyfit(np.log(lag[:15]), np.log(dfa[:15]), 1)
-    print(pol)
-    plt.show()
-    # Now what you should obtain is: slope = H + 1
-
 def mfdfatest(sls):
     data = np.array(sls)
     # Select a band of lags, which are ints
