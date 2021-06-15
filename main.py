@@ -1,6 +1,6 @@
 from __future__ import division
 
-from file_reader import getSentenceLengths
+from file_reader import getSentenceLengths, getSLEnglish
 import re
 import numpy as np
 import matplotlib.pyplot as plt
@@ -20,9 +20,9 @@ def mfdfatest(sls):
     order = 2
 
     # Obtain the (MF)DFA as
-    lag, dfa = MFDFA(data, lag=lag, q=q_list, order=order)
+    lag, dfa = MFDFA(data, lag=lag, q=2, order=order)
     # To uncover the Hurst index, lets get some log-log plots
-    plt.loglog(lag, dfa, 'o', label='fOU: MFDFA q=2')
+    plt.loglog(lag[20:len(sls)//5], dfa[20:len(sls)//5], 'o', label='fOU: MFDFA q=2')
 
     # And now we need to fit the line to find the slope. We will
     # fit the first points, since the results are more accurate
@@ -34,11 +34,13 @@ def mfdfatest(sls):
         for y in range(0, len(dfa[x])):
             if dfa[x,y] == 0:
                 dfa[x,y] += .000000000001
-    slopes = np.polyfit(np.log(lag), np.log(dfa), 1)[0]
+    # slopes = np.polyfit(np.log(lag), np.log(dfa), 1)[0]
+    slopes = np.polyfit(np.log(lag[20:len(sls)//5]), np.log(dfa[20:len(sls)//5]), 1)[0]
     slopes = slopes.tolist()
+    # print(slopes)
     hExponents = []
     for slope in slopes:
-        hExponents.append(slope - 1)
+        hExponents.append(slope)
     print(hExponents)
 
     # Now what you should obtain is: slope = H + 1
@@ -46,6 +48,9 @@ def mfdfatest(sls):
 
 if __name__ == '__main__':
     sentenceLengths = getSentenceLengths('射雕英雄传 金庸 1')
+
+    sentenceLengths = getSLEnglish("Great Expectations")
+    print(sentenceLengths)
     # multifractal(sentenceLengths)
     mfdfatest(sentenceLengths)
     #difs = []

@@ -66,3 +66,24 @@ def getSentenceLengths(title):
     for s in finalSentences:
         sentenceLengths.append(lenSentence(s))
     return sentenceLengths
+
+def lenSentenceEnglish(sentence):
+    sentences = sentence.split(" ")
+    #print(sentences)
+    #print(len(sentences))
+    return len(sentences)
+
+def getSLEnglish(title):
+    # res = re.split(".", readText(title))
+    res = readText(title).split('.')
+    # print(res)
+    finalSentences = []
+    sentenceLengths = []
+    for r in res:
+        if lenSentenceEnglish(r) > 0:
+            finalSentences.append(r)
+    for s in finalSentences:
+        sentenceLengths.append(lenSentenceEnglish(s))
+
+    # print(sentenceLengths)
+    return sentenceLengths
