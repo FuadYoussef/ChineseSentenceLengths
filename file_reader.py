@@ -56,7 +56,9 @@ def is_cjk(char):
 def getSentenceLengths(title):
     # we run the split function on the result of reading a text using a regex with the sentence markers
     # add characters to this regex to add more sentence markers
-    res = re.split('。|！|？|……', readText(title))
+
+    # TODO: add english period to regex, maybe add break by \n
+    res = re.split('。|！|？|……|.', readText(title))
     finalSentences = []
     sentenceLengths = []
     # this loop removes sentences with a length of 0 if any exist

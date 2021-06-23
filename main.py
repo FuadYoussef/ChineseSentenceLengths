@@ -5,6 +5,8 @@ import re
 import numpy as np
 import matplotlib.pyplot as plt
 from MFDFA import MFDFA
+from dr_yuan import paddleTest
+from LAC import LAC
 # encoding=utf-8
 
 def mfdfatest(sls):
@@ -48,11 +50,11 @@ def mfdfatest(sls):
 
 if __name__ == '__main__':
     sentenceLengths = getSentenceLengths('射雕英雄传 金庸 1')
-
-    sentenceLengths = getSLEnglish("Great Expectations")
-    print(sentenceLengths)
+    paddleTest()
+    # sentenceLengths = getSLEnglish("Great Expectations")
+    #print(sentenceLengths)
     # multifractal(sentenceLengths)
-    mfdfatest(sentenceLengths)
+   # mfdfatest(sentenceLengths)
     #difs = []
     #for i in range(0, len(mine)):
     #    difs.append(mine[i] - col[i])
