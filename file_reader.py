@@ -1,6 +1,6 @@
 import re
 
-# encoding=utf-8
+# encoding= utf-8
 # all of the logic for reading a text to get the sentence lengths should be in this file
 
 # these are the Unicode ranges in which any Chinese characters would exist
@@ -37,8 +37,7 @@ def readText(name):
 def lenSentence(sentence):
     strLen = 0
     for c in sentence:
-        if is_cjk(
-                c) and c != "，" and c != "“" and c != " " and c != "：" and c != "；" and c != "-" and c != "\n" and c != "\t":
+        if is_cjk(c) and c != "，" and c != "“" and c != " " and c != "：" and c != "；" and c != "-" and c != "\n" and c != "\t":
             strLen += 1
     return strLen
 
@@ -57,8 +56,7 @@ def getSentenceLengths(title):
     # we run the split function on the result of reading a text using a regex with the sentence markers
     # add characters to this regex to add more sentence markers
 
-    # TODO: add english period to regex, maybe add break by \n
-    res = re.split('。|！|？|……|.', readText(title))
+    res = re.split('。|！|？|……|\.|\n', readText(title))
     finalSentences = []
     sentenceLengths = []
     # this loop removes sentences with a length of 0 if any exist
@@ -69,11 +67,13 @@ def getSentenceLengths(title):
         sentenceLengths.append(lenSentence(s))
     return sentenceLengths
 
+
 def lenSentenceEnglish(sentence):
     sentences = sentence.split(" ")
-    #print(sentences)
-    #print(len(sentences))
+    # print(sentences)
+    # print(len(sentences))
     return len(sentences)
+
 
 def getSLEnglish(title):
     # res = re.split(".", readText(title))
