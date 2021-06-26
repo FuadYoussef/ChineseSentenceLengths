@@ -1,4 +1,5 @@
 import re
+import jieba
 
 # encoding= utf-8
 # all of the logic for reading a text to get the sentence lengths should be in this file
@@ -66,6 +67,60 @@ def getSentenceLengths(title):
     for s in finalSentences:
         sentenceLengths.append(lenSentence(s))
     return sentenceLengths
+
+
+def getSentenceLengthsFullRegex(title):
+    # we run the split function on the result of reading a text using a regex with the sentence markers
+    # add characters to this regex to add more sentence markers
+
+    res = re.split('。|！|？|……|\.|\n|、|，|,|\?', readText(title))
+    finalSentences = []
+    sentenceLengths = []
+    # this loop removes sentences with a length of 0 if any exist
+    for r in res:
+        if lenSentence(r) > 0:
+            finalSentences.append(r)
+    for s in finalSentences:
+        sentenceLengths.append(lenSentence(s))
+    return sentenceLengths
+
+
+def getSentenceLengthsByWord(title):
+    # we run the split function on the result of reading a text using a regex with the sentence markers
+    # add characters to this regex to add more sentence markers
+
+    res = re.split('。|！|？|……|\.|\n', readText(title))
+    finalSentences = []
+    sentenceLengths = []
+    # this loop removes sentences with a length of 0 if any exist
+    for r in res:
+        if lenSentenceByWords(r) > 0:
+            finalSentences.append(r)
+    for s in finalSentences:
+        sentenceLengths.append(lenSentenceByWords(s))
+    return sentenceLengths
+
+def getSentenceLengthsByWordFullRegex(title):
+    # we run the split function on the result of reading a text using a regex with the sentence markers
+    # add characters to this regex to add more sentence markers
+    res = re.split('。|！|？|……|\.|\n|、|，|,|\?', readText(title))
+    finalSentences = []
+    sentenceLengths = []
+    # this loop removes sentences with a length of 0 if any exist
+    for r in res:
+        if lenSentenceByWords(r) > 0:
+            finalSentences.append(r)
+    for s in finalSentences:
+        sentenceLengths.append(lenSentenceByWords(s))
+    return sentenceLengths
+
+def lenSentenceByWords(sentence):
+    words = splitSentencesByWords(sentence)
+    return len(words)
+
+def splitSentencesByWords(sentence):
+    seg_list = list(jieba.cut(sentence, use_paddle=True) ) # 使用paddle模式
+    return list(seg_list)
 
 
 def lenSentenceEnglish(sentence):

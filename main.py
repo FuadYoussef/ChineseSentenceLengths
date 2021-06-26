@@ -1,6 +1,7 @@
 from __future__ import division
 
-from file_reader import getSentenceLengths, getSLEnglish
+from file_reader import getSentenceLengths, getSLEnglish, getSentenceLengthsFullRegex, getSentenceLengthsByWord, getSentenceLengthsByWordFullRegex
+from dr_yuan import splitSentencesByWords
 import re
 import numpy as np
 import matplotlib.pyplot as plt
@@ -49,15 +50,13 @@ def mfdfatest(sls):
     plt.show()
 
 if __name__ == '__main__':
-    sentenceLengths = getSentenceLengths('射雕英雄传 金庸 1')
-    paddleTest()
+    sentenceLengths0 = getSentenceLengths('射雕英雄传 金庸 1') #split text by sentence enders, length by characters
+    sentenceLengths1 = getSentenceLengthsFullRegex('射雕英雄传 金庸 1')  # split text by all punctuation, length by characters
+    sentenceLengths2 = getSentenceLengthsByWord('射雕英雄传 金庸 1')  # split text by sentence enders, length by characters
+    sentenceLengths3 = getSentenceLengthsByWordFullRegex('射雕英雄传 金庸 1')  # split text by all punctuation, length by words
     # sentenceLengths = getSLEnglish("Great Expectations")
-    #print(sentenceLengths)
-    # multifractal(sentenceLengths)
-   # mfdfatest(sentenceLengths)
-    #difs = []
-    #for i in range(0, len(mine)):
-    #    difs.append(mine[i] - col[i])
-    #print(difs)
-    # simple_sample(sentenceLengths)
+    mfdfatest(sentenceLengths0)
+    mfdfatest(sentenceLengths1)
+    mfdfatest(sentenceLengths2)
+    mfdfatest(sentenceLengths3)
 

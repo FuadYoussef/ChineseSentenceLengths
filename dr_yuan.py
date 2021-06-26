@@ -36,3 +36,8 @@ def paddleTest():
 
         seg_list = jieba.cut_for_search("小明硕士毕业于中国科学院计算所，后在日本京都大学深造")  # 搜索引擎模式
         print(", ".join(seg_list))
+
+def splitSentencesByWords(sentences):
+    for sentence in sentences:
+        seg_list = jieba.cut(sentence, use_paddle=True)  # 使用paddle模式
+        print("Paddle Mode: " + '/'.join(list(seg_list)))
