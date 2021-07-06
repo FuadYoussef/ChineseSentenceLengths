@@ -57,7 +57,7 @@ def getSentenceLengths(title):
     # we run the split function on the result of reading a text using a regex with the sentence markers
     # add characters to this regex to add more sentence markers
 
-    res = re.split('。|！|？|……|\.|\n', readText(title))
+    res = re.split('。|！|？|……|\.', readText(title))
     finalSentences = []
     sentenceLengths = []
     # this loop removes sentences with a length of 0 if any exist
@@ -89,7 +89,7 @@ def getSentenceLengthsByWord(title):
     # we run the split function on the result of reading a text using a regex with the sentence markers
     # add characters to this regex to add more sentence markers
 
-    res = re.split('。|！|？|……|\.|\n', readText(title))
+    res = re.split('。|！|？|……|\.', readText(title))
     finalSentences = []
     sentenceLengths = []
     # this loop removes sentences with a length of 0 if any exist
