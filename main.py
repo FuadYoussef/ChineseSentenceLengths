@@ -47,13 +47,14 @@ def mfdfatest(sls):
     print(hExponents)
 
     # Now what you should obtain is: slope = H + 1
-    plt.show()
+    #plt.show()
 
 if __name__ == '__main__':
-    sentenceLengths0 = getSentenceLengths('射雕英雄传 金庸 1') #split text by sentence enders, length by characters
-    sentenceLengths1 = getSentenceLengthsFullRegex('射雕英雄传 金庸 1')  # split text by all punctuation, length by characters
-    sentenceLengths2 = getSentenceLengthsByWord('射雕英雄传 金庸 1')  # split text by sentence enders, length by characters
-    sentenceLengths3 = getSentenceLengthsByWordFullRegex('射雕英雄传 金庸 1')  # split text by all punctuation, length by words
+    title = '射雕英雄传金庸'
+    sentenceLengths0 = getSentenceLengths(title) #split text by sentence enders, length by characters
+    sentenceLengths1 = getSentenceLengthsFullRegex(title)  # split text by all punctuation, length by characters
+    sentenceLengths2 = getSentenceLengthsByWord(title)  # split text by sentence enders, length by characters
+    sentenceLengths3 = getSentenceLengthsByWordFullRegex(title)  # split text by all punctuation, length by words
     # sentenceLengths = getSLEnglish("Great Expectations")
     mfdfatest(sentenceLengths0)
     mfdfatest(sentenceLengths1)
