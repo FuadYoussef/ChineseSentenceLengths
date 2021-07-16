@@ -7,7 +7,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from MFDFA import MFDFA
 from dr_yuan import paddleTest
-from LAC import LAC
 # encoding=utf-8
 
 def mfdfatest(sls):
@@ -50,14 +49,32 @@ def mfdfatest(sls):
     #plt.show()
 
 if __name__ == '__main__':
-    title = '射雕英雄传金庸'
-    sentenceLengths0 = getSentenceLengths(title) #split text by sentence enders, length by characters
-    sentenceLengths1 = getSentenceLengthsFullRegex(title)  # split text by all punctuation, length by characters
-    sentenceLengths2 = getSentenceLengthsByWord(title)  # split text by sentence enders, length by characters
-    sentenceLengths3 = getSentenceLengthsByWordFullRegex(title)  # split text by all punctuation, length by words
-    # sentenceLengths = getSLEnglish("Great Expectations")
-    mfdfatest(sentenceLengths0)
-    mfdfatest(sentenceLengths1)
-    mfdfatest(sentenceLengths2)
-    mfdfatest(sentenceLengths3)
+    contemporaryTitles = ["三体刘慈欣","三重门韩寒","北妹","十三步莫言","单位刘震云","古炉","坚硬如水","尘埃落定","废都","活着","灵山高行健","狼图腾姜戎","玩的就是心跳王朔","穆斯林的葬礼","红高粱家族莫言","芳华严歌苓","金陵十三钗","长恨歌","陈忠实白鹿原","雍正皇帝二月河","额尔古纳河右岸迟子建","饥饿的女儿虹影","马桥词典韩少功"]
+    print("Contemporary Titles")
+    for title in contemporaryTitles:
+        print(title)
+        sentenceLengths0 = getSentenceLengths(title) #split text by sentence enders, length by characters
+        sentenceLengths1 = getSentenceLengthsFullRegex(title)  # split text by all punctuation, length by characters
+        sentenceLengths2 = getSentenceLengthsByWord(title)  # split text by sentence enders, length by characters
+        sentenceLengths3 = getSentenceLengthsByWordFullRegex(title)  # split text by all punctuation, length by words
+        # sentenceLengths = getSLEnglish("Great Expectations")
+        mfdfatest(sentenceLengths0)
+        mfdfatest(sentenceLengths1)
+        mfdfatest(sentenceLengths2)
+        mfdfatest(sentenceLengths3)
+        print("***********************************")
 
+    print("HK Titles")
+    hkTitles = ["射雕英雄传金庸","玫瑰的故事","白发魔女传梁羽生", "秧歌张爱玲", "绝代双骄古龙", "胭脂扣李碧华", "酒徒刘以鬯", "鹿鼎记 full"]
+    for title in hkTitles:
+        print(title)
+        sentenceLengths0 = getSentenceLengths(title) #split text by sentence enders, length by characters
+        sentenceLengths1 = getSentenceLengthsFullRegex(title)  # split text by all punctuation, length by characters
+        sentenceLengths2 = getSentenceLengthsByWord(title)  # split text by sentence enders, length by characters
+        sentenceLengths3 = getSentenceLengthsByWordFullRegex(title)  # split text by all punctuation, length by words
+        # sentenceLengths = getSLEnglish("Great Expectations")
+        mfdfatest(sentenceLengths0)
+        mfdfatest(sentenceLengths1)
+        mfdfatest(sentenceLengths2)
+        mfdfatest(sentenceLengths3)
+        print("***********************************")
