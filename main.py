@@ -6,8 +6,9 @@ import re
 import numpy as np
 import matplotlib.pyplot as plt
 from MFDFA import MFDFA
+import math
 from dr_yuan import paddleTest
-from LAC import LAC
+#from LAC import LAC
 # encoding=utf-8
 
 def mfdfatest(sls):
@@ -49,15 +50,74 @@ def mfdfatest(sls):
     # Now what you should obtain is: slope = H + 1
     #plt.show()
 
+def getBeta(sls):
+    # Calculates power spectrum
+
+    data = np.array(sls)  # Converts data to numpy array
+    data = data / np.std(data)  # Divides by standard deviation
+    data = data-np.mean(data)  # Subtracts mean
+    Fs = 1  # Sets Fs equal to 1
+    nfft = 2**(math.ceil(np.log2(len(data))))  # Defines nfft
+    fft_data = np.fft.fft(data, nfft)  # Calculates fast fourier transform
+    NumUniquePts = math.ceil((nfft + 1) / 2)  # Calculates number of unique points
+    fft_data = fft_data[0:NumUniquePts]  # Filters fft
+    mx = abs(fft_data)  # Calculates mx
+    mx = mx/len(data)  # Calculates mx
+    mx = mx**2  # Calculates mx
+
+    # Multiplies mx by 2, ignoring DC and Nyquist componentd
+
+    if nfft % 2 == 1:
+        mx[1:len(mx)] = mx[1:len(mx)]*2
+    else:
+        mx[1:(len(mx)-1)] = mx[1:(len(mx)-1)] * 2
+
+    # Now, create a frequency vector:
+    # This is an evenly spaced frequency vector with NumUniquePts points
+
+    f = np.linspace(0, NumUniquePts-1, NumUniquePts)*Fs/nfft
+
+    # Calculates and filters logarithms
+
+    logf = np.log(f)
+    logmx = np.log(mx)
+    mask = logf < -2.75
+    logf = logf[mask]
+    logmx = logmx[mask]
+    mask2 = logf > -100000000000000000000
+    logf = logf[mask2]
+    logmx = logmx[mask2]
+
+    # Calculates and prints beta
+
+    beta = np.polyfit(logf, logmx, 1)[0]
+    print(beta)
+
+
+
+
 if __name__ == '__main__':
-    title = '射雕英雄传金庸'
-    sentenceLengths0 = getSentenceLengths(title) #split text by sentence enders, length by characters
-    sentenceLengths1 = getSentenceLengthsFullRegex(title)  # split text by all punctuation, length by characters
-    sentenceLengths2 = getSentenceLengthsByWord(title)  # split text by sentence enders, length by characters
-    sentenceLengths3 = getSentenceLengthsByWordFullRegex(title)  # split text by all punctuation, length by words
-    # sentenceLengths = getSLEnglish("Great Expectations")
-    mfdfatest(sentenceLengths0)
-    mfdfatest(sentenceLengths1)
-    mfdfatest(sentenceLengths2)
-    mfdfatest(sentenceLengths3)
+    nationalHistoryTitles = ["清朝秘史", "武宗逸史", "民国演义", "民国野史", "汉代宫廷艳史", "洪宪宫闱艳史演义", "清代宫廷艳史", "清史演义", "清朝三百年艳史演义",
+                             "清朝前纪", "满清兴亡史", "留东外史", "留东外史续集", "秦朝野史", "西太后艳史演义", "西施艳史演义", "西汉野史", "貂蝉艳史演义",
+                             "贵妃艳史演义", "隋代宫闱史", "雍正剑侠图", "顺治出家"]
+    print("National History Titles")
+    for title in nationalHistoryTitles:
+        print(title)
+        sentenceLengths0 = getSentenceLengths(title) #split text by sentence enders, length by characters
+        sentenceLengths1 = getSentenceLengthsFullRegex(title)  # split text by all punctuation, length by characters
+        sentenceLengths2 = getSentenceLengthsByWord(title)  # split text by sentence enders, length by characters
+        sentenceLengths3 = getSentenceLengthsByWordFullRegex(title)  # split text by all punctuation, length by words
+        #sentenceLengths = getSLEnglish('Moby Dick')
+        #print(sentenceLengths)
+        print("H Values:")
+        mfdfatest(sentenceLengths0)
+        mfdfatest(sentenceLengths1)
+        mfdfatest(sentenceLengths2)
+        mfdfatest(sentenceLengths3)
+        print("Beta Values:")
+        getBeta(sentenceLengths0)
+        getBeta(sentenceLengths1)
+        getBeta(sentenceLengths2)
+        getBeta(sentenceLengths3)
+        print("***********************************")
 

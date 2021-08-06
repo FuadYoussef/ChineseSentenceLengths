@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/乌云遇皎月.txt" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/乌云遇皎月.txt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/啼笑因缘.txt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/围城.txt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/子夜.txt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/家.txt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/生死场.txt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/结婚十年.txt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/阿丽思中国游记.txt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/骆驼祥子.txt" charset="UTF-8" />
   </component>
 </project>

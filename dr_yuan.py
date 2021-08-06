@@ -1,10 +1,11 @@
-import jieba
+#import jieba
+import jieba as jieba
 import numpy as np
 import matplotlib.pyplot as plt
 # encoding=utf-8
 
 # this file contains unused code taken from Dr. Yuan's document. If we decide we need it, we can reference it later
-import paddle
+#import paddle
 
 
 def copyFunc(y):
