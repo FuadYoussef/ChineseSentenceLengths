@@ -97,11 +97,10 @@ def getBeta(sls):
 
 
 if __name__ == '__main__':
-    nationalHistoryTitles = ["清朝秘史", "武宗逸史", "民国演义", "民国野史", "汉代宫廷艳史", "洪宪宫闱艳史演义", "清代宫廷艳史", "清史演义", "清朝三百年艳史演义",
-                             "清朝前纪", "满清兴亡史", "留东外史", "留东外史续集", "秦朝野史", "西太后艳史演义", "西施艳史演义", "西汉野史", "貂蝉艳史演义",
-                             "贵妃艳史演义", "隋代宫闱史", "雍正剑侠图", "顺治出家"]
-    print("National History Titles")
-    for title in nationalHistoryTitles:
+    biographyTitles = ["世界100位首富人物发迹史", "中华人民共和国军事史要", "中国北漂艺人生存实录", "中国当代电影史", "中国远征军入缅对日作战述略", "五千年中国盗墓文化：中国人盗墓史", "从普通女孩到银行家", "努尔哈赤", "史玉柱",
+                             "姚明", "宋氏家族全传", "揭秘顶级职业经理人的智慧人生", "晚年蒋经国", "普鲁士", "曹操", "李嘉诚家族传", "李小龙的功夫人生","李开复自传","林徽因","激荡三十年","蒋氏家族全传","谁认识马云","鱼"]
+    print("Biography Titles")
+    for title in biographyTitles:
         print(title)
         sentenceLengths0 = getSentenceLengths(title) #split text by sentence enders, length by characters
         sentenceLengths1 = getSentenceLengthsFullRegex(title)  # split text by all punctuation, length by characters
