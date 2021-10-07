@@ -14,7 +14,7 @@ def simple_sample(sls):
     # dat = numpy.genfromtxt(url, skip_header=19)
 
     title = 'Sentence Length'
-    label = 'Zhufu Sentence Length'
+    label = 'Sentence Length'
     units = 'Characters'
     t0 = 1
     dt = 1  # In years
@@ -126,7 +126,7 @@ def simple_sample(sls):
                                numpy.log2(period[-1:]), [1e-9]]),
             'k', alpha=0.3, hatch='x')
     bx.set_title('b) {} Wavelet Power Spectrum ({})'.format(label, mother.name))
-    bx.set_ylabel('Period (years)')
+    bx.set_ylabel('Scale')
     #
     Yticks = 2 ** numpy.arange(numpy.ceil(numpy.log2(period.min())),
                                numpy.ceil(numpy.log2(period.max())))

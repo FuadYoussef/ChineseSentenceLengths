@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from MFDFA import MFDFA
 import math
+from cwt import simple_sample
 from dr_yuan import paddleTest
 #from LAC import LAC
 # encoding=utf-8
@@ -24,7 +25,7 @@ def mfdfatest(sls):
     order = 2
 
     # Obtain the (MF)DFA as
-    lag, dfa = MFDFA(data, lag=lag, q=2, order=order)
+    lag, dfa = MFDFA(data, lag=lag, q=q_list, order=order)
     # To uncover the Hurst index, lets get some log-log plots
     plt.loglog(lag[20:len(sls)//5], dfa[20:len(sls)//5], 'o', label='fOU: MFDFA q=2')
 
@@ -48,7 +49,7 @@ def mfdfatest(sls):
     print(hExponents)
 
     # Now what you should obtain is: slope = H + 1
-    #plt.show()
+    plt.show()
 
 def getBeta(sls):
     # Calculates power spectrum
@@ -97,39 +98,20 @@ def getBeta(sls):
 
 
 if __name__ == '__main__':
-    tangTitles = ["五代新说", "南岳小录", "唐国史补", "大唐创业起居注", "大唐新语", "明皇杂录", "游仙窟", "野朝佥载", "隋唐嘉话", "霍小玉传"]
-    print("Tang Titles")
-    for title in tangTitles:
-        print(title)
-        sentenceLengths0 = getSentenceLengths(title) #split text by sentence enders, length by characters
-        sentenceLengths1 = getSentenceLengthsFullRegex(title)  # split text by all punctuation, length by characters
-        sentenceLengths2 = getSentenceLengthsByWord(title)  # split text by sentence enders, length by characters
-        sentenceLengths3 = getSentenceLengthsByWordFullRegex(title)  # split text by all punctuation, length by words
-        #sentenceLengths = getSLEnglish('Moby Dick')
-        #print(sentenceLengths)
-        print("H Values:")
-        mfdfatest(sentenceLengths0)
-        mfdfatest(sentenceLengths1)
-        mfdfatest(sentenceLengths2)
-        mfdfatest(sentenceLengths3)
-        print("Beta Values:")
-        getBeta(sentenceLengths0)
-        getBeta(sentenceLengths1)
-        getBeta(sentenceLengths2)
-        getBeta(sentenceLengths3)
-        print("***********************************")
 
-    mingTitles = ["万历野获编", "三国演义（上）", "三国演义（下）", "三国演义（中）","三宝太监西洋记（一）","三宝太监西洋记（三）","三宝太监西洋记（二）"
-        ,"三宝太监西洋记（四）","东汉秘史","两晋秘史","二刻拍案惊奇（上）","二刻拍案惊奇（下）","云中事记","云中纪变","五代秘史","今古奇观（上）",
-                  "今古奇观（下）","初刻拍案惊奇（上）","初刻拍案惊奇（下）","包公案","周朝秘史","喻世明言（上）","喻世明言（下）","夏商野史",
-                  "大同纪事","姜氏秘史","封神演义（上）","封神演义（下）","封神演义（中）","水浒全传（上）","水浒全传（下）","水浒全传（中）",
-                  "清暑笔谈txt","皇明奇事述","皇明异典述","皇明本纪","皇明盛事述","皇明纪略","续英烈传","英烈传","蜀王本纪","西游记（上）",
-                  "西游记（下）txt","西游记（中）","警世通言（上）txt","警世通言（下）","醒世姻缘传（上）","醒世姻缘传（下）", "醒世姻缘传（中）",
-                  "醒世恒言（上）","醒世恒言（下）","野记","金瓶梅（崇祯本）","隋唐野史"]
-    print("Ming Titles")
-    for title in mingTitles:
+    graphTitles = ["三体刘慈欣", "红楼梦","红高粱家族莫言", "聊斋志异fixed", "资治通鉴2 （汉记四十五起）","酒徒刘以鬯"]
+    print("Graphing Titles")
+    for title in graphTitles:
         print(title)
         sentenceLengths0 = getSentenceLengths(title)  # split text by sentence enders, length by characters
+        """x = np.arange(0, len(sentenceLengths0))
+        y = sentenceLengths0
+        plt.title("Sentence Lengths of" + title)
+        plt.xlabel("Sentence Index")
+        plt.ylabel("Length of Sentence i")
+        plt.plot(x, y)
+        plt.show()"""
+        simple_sample(sentenceLengths0)
         sentenceLengths1 = getSentenceLengthsFullRegex(title)  # split text by all punctuation, length by characters
         sentenceLengths2 = getSentenceLengthsByWord(title)  # split text by sentence enders, length by characters
         sentenceLengths3 = getSentenceLengthsByWordFullRegex(title)  # split text by all punctuation, length by words
