@@ -123,17 +123,17 @@ def getBeta(sls):
 
 if __name__ == '__main__':
 
-    dir_to_read = "taiwan"
+    dir_to_read = "contemporary_china_1979"
     texts = get_texts(dir_to_read)
 
     data = []
     for title in texts:
         print(title)
-        sentenceLengths0 = getSentenceLengths(title) #split text by sentence enders, length by characters
+        sentence_lengths = getSentenceLengths(title) #split text by sentence enders, length by characters
      
-        h, delta_alpha = mfdfatest(sentenceLengths0)
-        data.append([title.split("/")[-1], delta_alpha])
+        h, delta_alpha = mfdfatest(sentence_lengths)
+        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha])
 
-    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Delta Alpha"])
+    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha"])
     delta_alpha_df.to_csv(dir_to_read + ".csv", sep='\t')
 
