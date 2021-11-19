@@ -1,6 +1,6 @@
 import re
 import jieba
-
+import os
 # encoding= utf-8
 # all of the logic for reading a text to get the sentence lengths should be in this file
 
@@ -27,10 +27,17 @@ cjk_ranges = [
 
 
 # when given the name of a text file excluding the extension, this function reads the text and returns a string
-def readText(name):
-    f = open(name + ".txt", "r", encoding='utf-8')
-    text = f.read()
-    f.close()
+def readText(filename):
+    text = ""
+    try:
+        f = open(filename, "r", encoding='utf-8')
+        text = f.read()
+        f.close()
+    
+    except UnicodeDecodeError:
+        f = open(filename, "r", encoding='utf-16')
+        text = f.read()
+        f.close()
     return text
 
 
@@ -68,6 +75,11 @@ def getSentenceLengths(title):
         sentenceLengths.append(lenSentence(s))
     return sentenceLengths
 
+def get_texts(dir):
+    texts = os.listdir(dir)
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    texts = [dir_path + "/" + dir + "/" + text for text in texts if "txt" in text]
+    return texts
 
 def getSentenceLengthsFullRegex(title):
     # we run the split function on the result of reading a text using a regex with the sentence markers
@@ -125,15 +137,11 @@ def splitSentencesByWords(sentence):
 
 def lenSentenceEnglish(sentence):
     sentences = sentence.split(" ")
-    # print(sentences)
-    # print(len(sentences))
     return len(sentences)
 
 
 def getSLEnglish(title):
-    # res = re.split(".", readText(title))
     res = readText(title).split('.')
-    # print(res)
     finalSentences = []
     sentenceLengths = []
     for r in res:
@@ -142,5 +150,4 @@ def getSLEnglish(title):
     for s in finalSentences:
         sentenceLengths.append(lenSentenceEnglish(s))
 
-    # print(sentenceLengths)
     return sentenceLengths
