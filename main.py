@@ -99,11 +99,12 @@ def getBeta(sls):
 
 if __name__ == '__main__':
 
-    graphTitles = ["三体刘慈欣", "红楼梦","红高粱家族莫言", "聊斋志异fixed", "资治通鉴2 （汉记四十五起）","酒徒刘以鬯"]
+    graphTitles = ["太阳照在桑干河上","骆驼祥子"]
     print("Graphing Titles")
     for title in graphTitles:
         print(title)
         sentenceLengths0 = getSentenceLengths(title)  # split text by sentence enders, length by characters
+
         """x = np.arange(0, len(sentenceLengths0))
         y = sentenceLengths0
         plt.title("Sentence Lengths of" + title)
@@ -111,10 +112,16 @@ if __name__ == '__main__':
         plt.ylabel("Length of Sentence i")
         plt.plot(x, y)
         plt.show()"""
+
+
         simple_sample(sentenceLengths0)
         sentenceLengths1 = getSentenceLengthsFullRegex(title)  # split text by all punctuation, length by characters
         sentenceLengths2 = getSentenceLengthsByWord(title)  # split text by sentence enders, length by characters
         sentenceLengths3 = getSentenceLengthsByWordFullRegex(title)  # split text by all punctuation, length by words
+        print("length by chars, sentence enders only", len(sentenceLengths0))
+        print("length by chars, all punctuation", len(sentenceLengths1))
+        print("length by words, sentence enders only", len(sentenceLengths2))
+        print("length by words, all punctuation", len(sentenceLengths3))
         # sentenceLengths = getSLEnglish('Moby Dick')
         # print(sentenceLengths)
         print("H Values:")
@@ -127,4 +134,36 @@ if __name__ == '__main__':
         getBeta(sentenceLengths1)
         getBeta(sentenceLengths2)
         getBeta(sentenceLengths3)
+        x = np.arange(0, len(sentenceLengths0))
+        y = sentenceLengths0
+        plt.title("First Calc. Sentence Lengths of" + title)
+        plt.xlabel("Sentence Index")
+        plt.ylabel("Length of Sentence i")
+        plt.plot(x, y)
+        plt.show()
+        """
+        x = np.arange(0, len(sentenceLengths1))
+        y = sentenceLengths0
+        plt.title("Second Calc. Sentence Lengths of" + title)
+        plt.xlabel("Sentence Index")
+        plt.ylabel("Length of Sentence i")
+        plt.plot(x, y)
+        plt.show()
+
+        x = np.arange(0, len(sentenceLengths2))
+        y = sentenceLengths0
+        plt.title("Third Calc. Sentence Lengths of" + title)
+        plt.xlabel("Sentence Index")
+        plt.ylabel("Length of Sentence i")
+        plt.plot(x, y)
+        plt.show()
+
+        x = np.arange(0, len(sentenceLengths3))
+        y = sentenceLengths0
+        plt.title("Fourth Calc. Sentence Lengths of" + title)
+        plt.xlabel("Sentence Index")
+        plt.ylabel("Length of Sentence i")
+        plt.plot(x, y)
+        plt.show()
+"       """
         print("***********************************")
