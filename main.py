@@ -6,6 +6,7 @@ import re
 import numpy as np
 import matplotlib.pyplot as plt
 from MFDFA import MFDFA
+from spectrum import spectrum_analysis
 import math
 from dr_yuan import paddleTest
 import pandas as pd
@@ -124,7 +125,7 @@ def getBeta(sls):
 if __name__ == '__main__':
 
     dir_to_read = "contemporary_china_1979"
-    texts = get_texts(dir_to_read)
+    texts = ["射雕英雄传 金庸 1.txt"]
 
     data = []
     for title in texts:
