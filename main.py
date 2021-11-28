@@ -6,7 +6,6 @@ import re
 import numpy as np
 import matplotlib.pyplot as plt
 from MFDFA import MFDFA
-from spectrum import spectrum_analysis
 import math
 from dr_yuan import paddleTest
 import pandas as pd
@@ -74,7 +73,8 @@ def mfdfatest(sls, debug=False):
 
         print("DELTA ALPHA")
         print(delta_alpha)
-    return h_values, delta_alpha
+    f_a = q[:-1] * alpha - t[:-1]
+    return h_values, delta_alpha, alpha, f_a
 
 def getBeta(sls):
     # Calculates power spectrum
@@ -125,15 +125,20 @@ def getBeta(sls):
 if __name__ == '__main__':
 
     dir_to_read = "contemporary_china_1979"
-    texts = ["射雕英雄传 金庸 1.txt"]
+    texts = ["骆驼祥子.txt"]
 
     data = []
     for title in texts:
         print(title)
         sentence_lengths = getSentenceLengths(title) #split text by sentence enders, length by characters
      
-        h, delta_alpha = mfdfatest(sentence_lengths)
+        h, delta_alpha, alphas, f_a = mfdfatest(sentence_lengths)
         data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha])
+        plt.title("Singularity Spectrum")
+        plt.xlabel("alpha")
+        plt.ylabel("f(alpha)")
+        plt.plot(alphas, f_a)
+        plt.show()
 
     delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha"])
     delta_alpha_df.to_csv(dir_to_read + ".csv", sep='\t')
