@@ -118,6 +118,7 @@ def getBeta(sls):
     # Calculates and prints beta
 
     beta = np.polyfit(logf, logmx, 1)[0]
+    return beta
     print(beta)
 
 
@@ -135,14 +136,15 @@ if __name__ == '__main__':
 
         h, delta_alpha, alphas, f_a = mfdfatest(sentence_lengths)
         h_q_2 = h[29]
-        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, h_q_2])
+        beta = getBeta(sentence_lengths)
+        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, beta, h_q_2])
         plt.title("Singularity Spectrum")
         plt.xlabel("alpha")
         plt.ylabel("f(alpha)")
         plt.plot(alphas, f_a)
         plt.show()
 
-    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "H Value Q = 2"])
+    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "Beta Value", "H Value Q = 2"])
     delta_alpha_df.to_csv(dir_to_read + ".csv", sep='\t')
 
     dir_to_read = "calculation2"
@@ -154,14 +156,15 @@ if __name__ == '__main__':
 
         h, delta_alpha, alphas, f_a = mfdfatest(sentence_lengths)
         h_q_2 = h[29]
-        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, h_q_2])
+        beta = getBeta(sentence_lengths)
+        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, beta, h_q_2])
         plt.title("Singularity Spectrum")
         plt.xlabel("alpha")
         plt.ylabel("f(alpha)")
         plt.plot(alphas, f_a)
         plt.show()
 
-    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "H Value Q = 2"])
+    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "Beta Value", "H Value Q = 2"])
     delta_alpha_df.to_csv(dir_to_read + ".csv", sep='\t')
 
     dir_to_read = "calculation3"
@@ -173,14 +176,15 @@ if __name__ == '__main__':
 
         h, delta_alpha, alphas, f_a = mfdfatest(sentence_lengths)
         h_q_2 = h[29]
-        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, h_q_2])
+        beta = getBeta(sentence_lengths)
+        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, beta, h_q_2])
         plt.title("Singularity Spectrum")
         plt.xlabel("alpha")
         plt.ylabel("f(alpha)")
         plt.plot(alphas, f_a)
         plt.show()
 
-    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "H Value Q = 2"])
+    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "Beta Value", "H Value Q = 2"])
     delta_alpha_df.to_csv(dir_to_read + ".csv", sep='\t')
 
     dir_to_read = "calculation4"
@@ -192,14 +196,15 @@ if __name__ == '__main__':
 
         h, delta_alpha, alphas, f_a = mfdfatest(sentence_lengths)
         h_q_2 = h[29]
-        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, h_q_2])
+        beta = getBeta(sentence_lengths)
+        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, beta, h_q_2])
         plt.title("Singularity Spectrum")
         plt.xlabel("alpha")
         plt.ylabel("f(alpha)")
         plt.plot(alphas, f_a)
         plt.show()
 
-    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "H Value Q = 2"])
+    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "Beta Value", "H Value Q = 2"])
     delta_alpha_df.to_csv(dir_to_read + ".csv", sep='\t')
 
 
@@ -214,32 +219,14 @@ if __name__ == '__main__':
 
         h, delta_alpha, alphas, f_a = mfdfatest(sentence_lengths)
         h_q_2 = h[29]
-        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, h_q_2])
+        beta = getBeta(sentence_lengths)
+        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, beta, h_q_2])
         plt.title("Singularity Spectrum")
         plt.xlabel("alpha")
         plt.ylabel("f(alpha)")
         plt.plot(alphas, f_a)
         plt.show()
 
-    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "H Value Q = 2"])
-    delta_alpha_df.to_csv(dir_to_read + ".csv", sep='\t')
-
-    dir_to_read = "calculation6"
-
-    data = []
-    for title in texts:
-        print(title)
-        sentence_lengths = calculation5(title)
-
-        h, delta_alpha, alphas, f_a = mfdfatest(sentence_lengths)
-        h_q_2 = h[29]
-        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, h_q_2])
-        plt.title("Singularity Spectrum")
-        plt.xlabel("alpha")
-        plt.ylabel("f(alpha)")
-        plt.plot(alphas, f_a)
-        plt.show()
-
-    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "H Value Q = 2"])
+    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "Beta Value", "H Value Q = 2"])
     delta_alpha_df.to_csv(dir_to_read + ".csv", sep='\t')
 
