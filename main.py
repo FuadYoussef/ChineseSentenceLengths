@@ -1,6 +1,6 @@
 from __future__ import division
 
-from file_reader import getSentenceLengths, getSLEnglish, getSentenceLengthsFullRegex, getSentenceLengthsByWord, getSentenceLengthsByWordFullRegex, get_texts
+from file_reader import getSentenceLengths, getSLEnglish, getSentenceLengthsFullRegex, getSentenceLengthsByWord, getSentenceLengthsByWordFullRegex, get_texts, calculation5, calculation6
 from dr_yuan import splitSentencesByWords
 import re
 import numpy as np
@@ -124,17 +124,31 @@ def getBeta(sls):
 
 if __name__ == '__main__':
 
-    dir_to_read = "contemporary_china_1979"
+    dir_to_read = "calculation5"
     texts = ["射雕英雄传 金庸 1.txt"]
 
     data = []
     for title in texts:
         print(title)
-        sentence_lengths = getSentenceLengths(title) #split text by sentence enders, length by characters
-     
-        h, delta_alpha = mfdfatest(sentence_lengths)
-        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha])
+        sentence_lengths = calculation5(title)
 
-    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha"])
+        h, delta_alpha = mfdfatest(sentence_lengths)
+        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, h])
+
+    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "H Values"])
+    delta_alpha_df.to_csv(dir_to_read + ".csv", sep='\t')
+
+    dir_to_read = "calculation6"
+    texts = ["射雕英雄传 金庸 1.txt"]
+
+    data = []
+    for title in texts:
+        print(title)
+        sentence_lengths = calculation5(title)
+
+        h, delta_alpha = mfdfatest(sentence_lengths)
+        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, h])
+
+    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "H Values"])
     delta_alpha_df.to_csv(dir_to_read + ".csv", sep='\t')
 
