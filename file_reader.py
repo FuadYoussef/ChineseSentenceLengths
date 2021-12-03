@@ -96,6 +96,36 @@ def getSentenceLengthsFullRegex(title):
         sentenceLengths.append(lenSentence(s))
     return sentenceLengths
 
+def calculation5(title):
+    # we run the split function on the result of reading a text using a regex with the sentence markers
+    # add characters to this regex to add more sentence markers
+
+    res = re.split('。|！|？|……|\.|\n|、|，|,|\?|:|;|：|；|-|—|～|!', readText(title))
+    finalSentences = []
+    sentenceLengths = []
+    # this loop removes sentences with a length of 0 if any exist
+    for r in res:
+        if lenSentence(r) > 0:
+            finalSentences.append(r)
+    for s in finalSentences:
+        sentenceLengths.append(lenSentence(s))
+    return sentenceLengths
+
+def calculation6(title):
+    # we run the split function on the result of reading a text using a regex with the sentence markers
+    # add characters to this regex to add more sentence markers
+
+    res = re.split('，|,', readText(title))
+    finalSentences = []
+    sentenceLengths = []
+    # this loop removes sentences with a length of 0 if any exist
+    for r in res:
+        if lenSentence(r) > 0:
+            finalSentences.append(r)
+    for s in finalSentences:
+        sentenceLengths.append(lenSentence(s))
+    return sentenceLengths
+
 
 def getSentenceLengthsByWord(title):
     # we run the split function on the result of reading a text using a regex with the sentence markers
