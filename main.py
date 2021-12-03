@@ -74,7 +74,8 @@ def mfdfatest(sls, debug=False):
 
         print("DELTA ALPHA")
         print(delta_alpha)
-    return h_values, delta_alpha
+    f_a = q[:-1] * alpha - t[:-1]
+    return h_values, delta_alpha, alpha, f_a
 
 def getBeta(sls):
     # Calculates power spectrum
@@ -124,31 +125,121 @@ def getBeta(sls):
 
 if __name__ == '__main__':
 
-    dir_to_read = "calculation5"
+    dir_to_read = "calculation1"
     texts = ["射雕英雄传 金庸 1.txt"]
+
+    data = []
+    for title in texts:
+        print(title)
+        sentence_lengths = getSentenceLengths(title)
+
+        h, delta_alpha, alphas, f_a = mfdfatest(sentence_lengths)
+        h_q_2 = h[29]
+        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, h_q_2])
+        plt.title("Singularity Spectrum")
+        plt.xlabel("alpha")
+        plt.ylabel("f(alpha)")
+        plt.plot(alphas, f_a)
+        plt.show()
+
+    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "H Value Q = 2"])
+    delta_alpha_df.to_csv(dir_to_read + ".csv", sep='\t')
+
+    dir_to_read = "calculation2"
+
+    data = []
+    for title in texts:
+        print(title)
+        sentence_lengths = getSentenceLengthsFullRegex(title)
+
+        h, delta_alpha, alphas, f_a = mfdfatest(sentence_lengths)
+        h_q_2 = h[29]
+        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, h_q_2])
+        plt.title("Singularity Spectrum")
+        plt.xlabel("alpha")
+        plt.ylabel("f(alpha)")
+        plt.plot(alphas, f_a)
+        plt.show()
+
+    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "H Value Q = 2"])
+    delta_alpha_df.to_csv(dir_to_read + ".csv", sep='\t')
+
+    dir_to_read = "calculation3"
+
+    data = []
+    for title in texts:
+        print(title)
+        sentence_lengths = getSentenceLengthsByWord(title)
+
+        h, delta_alpha, alphas, f_a = mfdfatest(sentence_lengths)
+        h_q_2 = h[29]
+        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, h_q_2])
+        plt.title("Singularity Spectrum")
+        plt.xlabel("alpha")
+        plt.ylabel("f(alpha)")
+        plt.plot(alphas, f_a)
+        plt.show()
+
+    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "H Value Q = 2"])
+    delta_alpha_df.to_csv(dir_to_read + ".csv", sep='\t')
+
+    dir_to_read = "calculation4"
+
+    data = []
+    for title in texts:
+        print(title)
+        sentence_lengths = getSentenceLengthsByWordFullRegex(title)
+
+        h, delta_alpha, alphas, f_a = mfdfatest(sentence_lengths)
+        h_q_2 = h[29]
+        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, h_q_2])
+        plt.title("Singularity Spectrum")
+        plt.xlabel("alpha")
+        plt.ylabel("f(alpha)")
+        plt.plot(alphas, f_a)
+        plt.show()
+
+    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "H Value Q = 2"])
+    delta_alpha_df.to_csv(dir_to_read + ".csv", sep='\t')
+
+
+
+
+    dir_to_read = "calculation5"
 
     data = []
     for title in texts:
         print(title)
         sentence_lengths = calculation5(title)
 
-        h, delta_alpha = mfdfatest(sentence_lengths)
-        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, h])
+        h, delta_alpha, alphas, f_a = mfdfatest(sentence_lengths)
+        h_q_2 = h[29]
+        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, h_q_2])
+        plt.title("Singularity Spectrum")
+        plt.xlabel("alpha")
+        plt.ylabel("f(alpha)")
+        plt.plot(alphas, f_a)
+        plt.show()
 
-    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "H Values"])
+    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "H Value Q = 2"])
     delta_alpha_df.to_csv(dir_to_read + ".csv", sep='\t')
 
     dir_to_read = "calculation6"
-    texts = ["射雕英雄传 金庸 1.txt"]
 
     data = []
     for title in texts:
         print(title)
         sentence_lengths = calculation5(title)
 
-        h, delta_alpha = mfdfatest(sentence_lengths)
-        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, h])
+        h, delta_alpha, alphas, f_a = mfdfatest(sentence_lengths)
+        h_q_2 = h[29]
+        data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, h_q_2])
+        plt.title("Singularity Spectrum")
+        plt.xlabel("alpha")
+        plt.ylabel("f(alpha)")
+        plt.plot(alphas, f_a)
+        plt.show()
 
-    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "H Values"])
+    delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "H Value Q = 2"])
     delta_alpha_df.to_csv(dir_to_read + ".csv", sep='\t')
 
