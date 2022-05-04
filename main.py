@@ -10,10 +10,18 @@ from spectrum import spectrum_analysis
 import math
 from dr_yuan import paddleTest
 import pandas as pd
+from matplotlib import font_manager
+
+fontP = font_manager.FontProperties()
+fontP.set_family('SimHei')
+fontP.set_size(14)
 #from LAC import LAC
 # encoding=utf-8
 import os
 from pathlib import Path
+
+
+
 def mfdfatest(sls, debug=False):
 
     # SAVE OUT DATA TO POTENTIALLY RUN IN MATLAB?
@@ -36,7 +44,8 @@ def mfdfatest(sls, debug=False):
         # Obtain the (MF)DFA as
         lag, dfa = MFDFA(data, lag=lag, q=q_val, order=order)
         # To uncover the Hurst index, lets get some log-log plots
-        plt.loglog(lag[20:len(sls)//5], dfa[20:len(sls)//5], 'o', label='fOU: MFDFA q=2')
+        #plt.loglog(lag[20:len(sls)//5], dfa[20:len(sls)//5], 'o', label='fOU: MFDFA q=2')
+        plt.plot(lag[20:len(sls) // 5], dfa[20:len(sls) // 5], 'o', label='fOU: MFDFA q=2')
         # float precision stuff? Don't want 0s?
         for x in range(0, len(dfa)):
             for y in range(0, len(dfa[x])):
@@ -127,7 +136,7 @@ def getBeta(sls):
 if __name__ == '__main__':
 
     dir_to_read = "calculation1"
-    texts = ["射雕英雄传 金庸 1.txt"]
+    texts = ["太阳照在桑干河上.txt", "酒徒刘以鬯.txt"]
 
     data = []
     for title in texts:
@@ -135,17 +144,26 @@ if __name__ == '__main__':
         sentence_lengths = getSentenceLengths(title)
 
         h, delta_alpha, alphas, f_a = mfdfatest(sentence_lengths)
+        titleString = title.split(".")[0] + " " + "Qth Order Fluctuations"
+        plt.title(titleString, fontproperties=fontP)
+        plt.xlabel("s", fontproperties=fontP)
+        plt.ylabel("f(s)", fontproperties=fontP)
+        plt.show()
+        plt.close()
         h_q_2 = h[29]
         beta = getBeta(sentence_lengths)
         data.append([title.split("/")[-1], len(sentence_lengths), delta_alpha, beta, h_q_2])
-        plt.title("Singularity Spectrum")
-        plt.xlabel("alpha")
-        plt.ylabel("f(alpha)")
+        titleString = title.split(".")[0] + " "+"Singularity Spectrum"
+        plt.title(titleString, fontproperties=fontP)
+        plt.xlabel(r'$\alpha$', fontproperties=fontP)
+        plt.ylabel(r"f($\alpha$)", fontproperties=fontP)
         plt.plot(alphas, f_a)
         plt.show()
 
     delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "Beta Value", "H Value Q = 2"])
     delta_alpha_df.to_csv(dir_to_read + ".csv", sep='\t')
+
+    """
 
     dir_to_read = "calculation2"
 
@@ -229,4 +247,5 @@ if __name__ == '__main__':
 
     delta_alpha_df = pd.DataFrame(data, columns=["Title", "Samples", "Delta Alpha", "Beta Value", "H Value Q = 2"])
     delta_alpha_df.to_csv(dir_to_read + ".csv", sep='\t')
+    """
 
